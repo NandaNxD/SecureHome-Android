@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "493789603234",
+    "project_id": "doorsense",
+    "storage_bucket": "doorsense.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493789603234:android:2efee445fb33e1ec4fbefb",
+        "android_client_info": {
+          "package_name": "com.example.securehome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493789603234-lecdf81hb2ci3u9ts7atjvi6rglij001.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXH7C892DQPytw9q5BKj7nEzjtFMxgb2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493789603234-lecdf81hb2ci3u9ts7atjvi6rglij001.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493789603234:android:497096b72e658d484fbefb",
+        "android_client_info": {
+          "package_name": "com.furrycatxd.doorsense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493789603234-lecdf81hb2ci3u9ts7atjvi6rglij001.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXH7C892DQPytw9q5BKj7nEzjtFMxgb2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493789603234-lecdf81hb2ci3u9ts7atjvi6rglij001.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
