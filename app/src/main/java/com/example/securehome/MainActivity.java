@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     boolean USER_NOTIFICATION_CHOICE=true;
     FirebaseFirestore db;
     private StorageReference mStorageRef;
-    MenuItem notificationCheckbox;
+
     DocumentReference motion;
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         displayImage(new View(this));
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
