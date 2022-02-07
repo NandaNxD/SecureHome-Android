@@ -1,13 +1,9 @@
 package com.example.securehome;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,6 +19,8 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,15 +28,21 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
     TextView alertTextView;
     ImageView imageView;
-    boolean USER_NOTIFICATION_CHOICE=true;
+    boolean USER_NOTIFICATION_CHOICE=false;
     FirebaseFirestore db;
     private StorageReference mStorageRef;
+    TextView imageInfo;
     ConstraintLayout constraintLayout;
     LottieAnimationView lottieAnimationView;
     MaterialButton emergencyCall;
@@ -47,9 +51,27 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
 
+    public String getDate(long millis){
+        DateFormat obj = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z");
+        // we create instance of the Date and pass milliseconds to the constructor
+        Date res = new Date(millis);
+        // now we format the res by using SimpleDateFormat
+        return (obj.format(res));
+    }
 
     public void displayImage(View view){
         StorageReference storageReference=mStorageRef.child("image.jpeg");
+        storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                imageInfo.setText(getDate(storageMetadata.getCreationTimeMillis()));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),"ERROR",Toast.LENGTH_SHORT).show();
+            }
+        });
         GlideApp.with(this).load(storageReference).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
     }
 
@@ -63,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         imageView=findViewById(R.id.imageView);
         lottieAnimationView=findViewById(R.id.animation_view);
         emergencyCall=findViewById(R.id.emergencyCall);
+        imageInfo=findViewById(R.id.imageInfo);
 
         db=FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -108,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -129,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(USER_NOTIFICATION_CHOICE){
             Log.d("BACKGROUNDSERVICE","mainactivity START");
-            startService(new Intent(getApplicationContext(),BackgroundNotification.class));
+            startService(new Intent(getApplication(),BackgroundNotification.class));
         }
         else{
             Log.d("BACKGROUNDSERVICE","mainactivity STOP");

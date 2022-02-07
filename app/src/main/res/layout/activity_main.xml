@@ -90,6 +90,14 @@
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/imageInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FDD835"
+            android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
@@ -22,7 +23,11 @@ public class BackgroundNotification extends Service {
     public String CHANNEL_ID="SECUREHOME_NOTIFICATION_CHANNEL";
     FirebaseFirestore fd;
     DocumentReference ds;
-    NotificationCompat.Builder builder;
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("Motion detected")
+            .setPriority(NotificationCompat.PRIORITY_HIGH);
+
     NotificationManagerCompat notificationManager;
     boolean USER_NOTIFICATION_CHOICE=true;
 
@@ -45,6 +50,8 @@ public class BackgroundNotification extends Service {
 
     }
 
+
+
     @Override
     public void onCreate() {
         Log.d("BACKGROUNDSERVICE","STARTSERVICE");
@@ -52,10 +59,6 @@ public class BackgroundNotification extends Service {
         ds=fd.collection("SecureHome").document("1");
 
         createNotificationChannel();
-        builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Motion detected")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager = NotificationManagerCompat.from(this);
         USER_NOTIFICATION_CHOICE=getSharedPreferences("NOTIFICATION_PREFERENCES",MODE_PRIVATE).getBoolean("USER_NOTIFICATION_CHOICE",true);
@@ -76,6 +79,7 @@ public class BackgroundNotification extends Service {
                         if(USER_NOTIFICATION_CHOICE){
                             Log.d("BACKGROUNDSERVICE","ENTER ON EVENT");
                             notificationManager.notify(createNotificationId(),builder.build());
+
                         }
                     }
 
